@@ -1,4 +1,8 @@
 steps:
+- id: 'Clone repo'
+  # This step fetches the policies from the repository
+  name: 'gcr.io/cloud-builders/git'
+  args: ['clone', 'https://github.com/pyljain/sdc-kcc-toolchain.git']
 - id: 'Download repo'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
