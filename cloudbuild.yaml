@@ -12,9 +12,9 @@ steps:
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'
   # args: ['-c', 'kpt fn run ../manifests/ --enable-exec --exec-path ./activeassist_run-macos']
-- id: "Run functions"
-  name: 'gcr.io/kpt-dev/kpt:latest'
-  args:
-    - fn
-    - run
-    - exmaple-package
+# - id: "Run functions"
+#   name: 'gcr.io/kpt-dev/kpt:latest'
+#   args:
+#     - fn
+#     - run
+#     - exmaple-package
