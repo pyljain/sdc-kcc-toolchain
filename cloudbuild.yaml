@@ -3,7 +3,7 @@ steps:
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt'
   entrypoint: '/bin/sh'
-  args: ['-c', 'kpt pkg get https://github.com/pyljain/sdc-kcc-toolchain.git']
+  args: ['-c', 'kpt pkg get https://github.com/pyljain/sdc-kcc-toolchain.git sample']
 # - id: 'Validate against policies'
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'
