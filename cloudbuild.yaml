@@ -1,10 +1,16 @@
 steps:
 - id: 'Download repo'
   # This step fetches the policies from the repository
-  name: 'gcr.io/kpt-dev/kpt'
+  name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt pkg get https://github.com/pyljain/sdc-kcc-toolchain.git sample']
 # - id: 'Validate against policies'
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'
   # args: ['-c', 'kpt fn run ../manifests/ --enable-exec --exec-path ./activeassist_run-macos']
+- id: "Run functions"
+  name: 'gcr.io/kpt-dev/kpt:latest'
+  args:
+    - fn
+    - run
+    - exmaple-package
