@@ -17,12 +17,20 @@ steps:
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
-  args: ['-c', 'kpt cfg set sample/ namespace activeassist -R']
+  args: ['-c', 'kpt cfg set sample/ namespace activeassist2 -R']
 - id: 'Set projectId in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg set sample/ projectid sandbox-jainpayal -R']
+- id: 'Run recommender function'
+  name: 'gcr.io/kpt-dev/kpt:latest'
+  entrypoint: '/bin/sh'
+  args: ['-c', 'kpt fn run sample/manifests/ --fn-path sample/kpt/']
+- id: 'Apply the package'
+  name: 'gcr.io/kpt-dev/kpt:latest'
+  entrypoint: '/bin/sh'
+  args: ['-c', 'kubectl apply -f sample/ -R']
 # - id: 'Validate against policies'
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'
