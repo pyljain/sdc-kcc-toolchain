@@ -28,9 +28,11 @@ steps:
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt fn run sample/manifests/ --fn-path sample/kpt/']
 - id: 'Apply the package'
-  name: 'gcr.io/kpt-dev/kpt:latest'
-  entrypoint: '/bin/sh'
-  args: ['-c', 'kubectl apply -f sample/ -R']
+  name: 'gcr.io/cloud-builders/kubectl'
+  args: ['apply', '-f', 'sample/manifests/']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=activeassist-kcc'
 # - id: 'Validate against policies'
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'
