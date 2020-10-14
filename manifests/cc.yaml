@@ -20,6 +20,7 @@ metadata:
   labels:
     created-from: image
     network-type: subnetwork
+    owner: payal
   namespace: activeassist
 spec:
   machineType: g1-small

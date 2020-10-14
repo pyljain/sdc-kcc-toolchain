@@ -23,10 +23,10 @@ steps:
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg set sample/ projectid sandbox-jainpayal -R']
-- id: 'Run recommender function'
-  name: 'gcr.io/kpt-dev/kpt:latest'
-  entrypoint: '/bin/sh'
-  args: ['-c', 'kpt fn run sample/manifests/ --fn-path sample/kpt/']
+# - id: 'Run recommender function'
+#   name: 'gcr.io/kpt-dev/kpt:latest'
+#   entrypoint: '/bin/sh'
+#   args: ['-c', 'kpt fn run sample/manifests/ --fn-path sample/kpt/']
 - id: 'Apply the package'
   name: 'gcr.io/cloud-builders/kubectl'
   args: ['apply', '-f', 'sample/manifests/']
