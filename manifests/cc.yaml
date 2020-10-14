@@ -23,7 +23,7 @@ metadata:
     owner: payal
   namespace: activeassist
 spec:
-  machineType: g1-small
+  machineType: n1-standard-1
   zone: us-west1-a
   bootDisk:
     initializeParams:
