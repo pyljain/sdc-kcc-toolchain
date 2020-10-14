@@ -22,16 +22,22 @@ function activeassist(configs) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const vms = configs.getAll().filter(compute_instance_1.isComputeInstance);
+        console.log('vms', vms);
         const namespacesWithProjectId = getNamespacesWithProjectID(configs);
+        console.log('namespacesWithProjectId', namespacesWithProjectId);
         // Collect list of projects with locations
         const projectWithLocations = getProjectWithLocations(vms, namespacesWithProjectId);
+        console.log('projectWithLocations', projectWithLocations);
         // Get a list of recommendations
         const auth = new googleapis_1.google.auth.GoogleAuth({
             scopes: ['https://www.googleapis.com/auth/cloud-platform']
         });
+        process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json';
         const authClient = yield auth.getClient();
         const token = ((_a = (yield authClient.getAccessToken())) === null || _a === void 0 ? void 0 : _a.token) || '';
         const recommendations = yield getAllRecommendations(projectWithLocations, token);
+        console.log('token', token);
+        console.log('recommendations', recommendations);
         // Filter recommendations which are not for operation = 'replace'
         const recommendationsToApply = recommendations.filter(filterRecommendations);
         // Mutate configs

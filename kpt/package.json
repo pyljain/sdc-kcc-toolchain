@@ -32,6 +32,6 @@
     "typescript": "^3.5.3"
   },
   "kpt": {
-    "docker_repo_base": "payaljain/kcc-activeassist"
+    "docker_repo_base": "payaljain"
   }
 }

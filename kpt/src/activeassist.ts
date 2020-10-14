@@ -11,21 +11,30 @@ const BASE_ENDPOINT="recommender.googleapis.com/v1/projects"
 export async function activeassist(configs: Configs) {
 
   const vms: ComputeInstance[] = configs.getAll().filter(isComputeInstance);
+  console.log('vms', vms);
+
   const namespacesWithProjectId: Map<string, string> = getNamespacesWithProjectID(configs);
+  console.log('namespacesWithProjectId', namespacesWithProjectId);
 
   // Collect list of projects with locations
   const projectWithLocations: Map<string, string[]> = getProjectWithLocations(vms, namespacesWithProjectId);
+  console.log('projectWithLocations', projectWithLocations);
 
   // Get a list of recommendations
   const auth = new google.auth.GoogleAuth({
     scopes: ['https://www.googleapis.com/auth/cloud-platform']
   })
 
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json'
+
   const authClient = await auth.getClient();
 
   const token = (await authClient.getAccessToken())?.token || '';
 
   const recommendations = await getAllRecommendations(projectWithLocations, token);
+
+  console.log('token', token);
+  console.log('recommendations', recommendations);
 
   // Filter recommendations which are not for operation = 'replace'
   const recommendationsToApply =
