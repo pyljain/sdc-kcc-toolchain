@@ -26,13 +26,7 @@ steps:
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
-  args: ['-c', '"kpt fn run sample/manifests/ --network --image payaljain/activeassist:dev --mount type=bind,src=$GOOGLE_APPLICATION_CREDENTIALS,dst=/home/node/.gcloud/credentials.json"']
-- id: 'Apply the package'
-  name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'sample/manifests/']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=activeassist-kcc'
+  args: ['-c', '"kpt fn run sample/manifests/ --network --image payaljain/activeassist:dev"']
 # - id: 'Validate against policies'
   # This step validates resources against recommendations - do the docker way
   # name: 'gcr.io/kpt-dev/kpt'

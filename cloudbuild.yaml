@@ -17,7 +17,7 @@ steps:
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
-  args: ['-c', 'kpt cfg set sample/ namespace ${_NAMESPACE_NAME} -R']
+  args: ['-c', 'kpt cfg set sample/ namespace ${ -} -R']
 - id: 'Set projectId in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'

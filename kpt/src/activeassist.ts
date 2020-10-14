@@ -25,7 +25,7 @@ export async function activeassist(configs: Configs) {
     scopes: ['https://www.googleapis.com/auth/cloud-platform']
   })
 
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json'
+  // process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json'
 
   const authClient = await auth.getClient();
 

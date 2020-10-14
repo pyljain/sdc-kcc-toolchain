@@ -32,7 +32,7 @@ function activeassist(configs) {
         const auth = new googleapis_1.google.auth.GoogleAuth({
             scopes: ['https://www.googleapis.com/auth/cloud-platform']
         });
-        process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json';
+        // process.env.GOOGLE_APPLICATION_CREDENTIALS = '/home/node/.gcloud/credentials.json'
         const authClient = yield auth.getClient();
         const token = ((_a = (yield authClient.getAccessToken())) === null || _a === void 0 ? void 0 : _a.token) || '';
         const recommendations = yield getAllRecommendations(projectWithLocations, token);
