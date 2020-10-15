@@ -24,7 +24,7 @@ steps:
   args: ['-c', 'kpt cfg set manifests/ projectid sandbox-jainpayal -R']
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt'
-  args: ['-c', 'kpt fn run ./manifests/ --enable-exec --exec-path ./kpt/activeassist_run-linux']
+  args: ['-c', 'kpt fn run ./manifests/ --fn-path ./kpt']
   entrypoint: '/bin/sh'
 - id: 'Push branch to remote'
   # This step fetches the policies from the repository
