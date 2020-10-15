@@ -71,8 +71,8 @@ steps:
 
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
-  args: ['-c', 'kpt fn run ./manifests/ --enable-exec --exec-path ./kpt/activeassist_run-linux --dry-run']
-  entrypoint: '/bin/sh'
+  args: ['-c', 'fn', 'run', './manifests/', '--enable-exec', '--exec-path', './kpt/activeassist_run-linux', '--dry-run']
+  # entrypoint: '/bin/sh'
 - id: 'Configure git email for commit'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
