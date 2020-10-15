@@ -54,9 +54,21 @@ steps:
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg set manifests/ projectid sandbox-jainpayal -R']
+# - id: 'Run recommender function'
+#   name: 'gcr.io/kpt-dev/kpt:latest'
+#   args: ['-c', 'kpt fn run ./manifests/ --fn-path ./kpt --dry-run']
+#   entrypoint: '/bin/sh'
+- id: 'Make function executable'
+  name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    chmod u+x ./kpt/activeassist_run-linux
+
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
-  args: ['-c', 'kpt fn run ./manifests/ --fn-path ./kpt --dry-run']
+  args: ['-c', 'kpt fn run ./manifests/ --enable-exec --exec-path ./kpt/activeassist_run-linux --dry-run']
   entrypoint: '/bin/sh'
 - id: 'Configure git email for commit'
   # This step fetches the policies from the repository
