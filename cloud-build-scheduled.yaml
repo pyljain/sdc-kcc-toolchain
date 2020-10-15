@@ -2,7 +2,7 @@ steps:
 - id: 'Clone repo'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
-  args: ['clone', 'https://github.com/pyljain/sdc-kcc-toolchain.git']
+  args: ['clone', 'git@github.com:pyljain/sdc-kcc-toolchain.git']
 - id: 'Create new branch'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
