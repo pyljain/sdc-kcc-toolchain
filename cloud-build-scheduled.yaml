@@ -1,11 +1,17 @@
 steps:
+- name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=github-private-key > /root/.ssh/id_github' ]
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
 - id: 'Get git credentials'
   name: 'gcr.io/cloud-builders/git'
   entrypoint: 'bash'
   args:
   - '-c'
   - |
-    echo $_GITHUB_KEY > /root/.ssh/id_github
     chmod 600 /root/.ssh/id_github
     cat <<EOF >/root/.ssh/config
     Hostname github.com
