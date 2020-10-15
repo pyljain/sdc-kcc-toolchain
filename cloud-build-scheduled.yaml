@@ -65,6 +65,9 @@ steps:
   - '-c'
   - |
     chmod u+x ./kpt/activeassist_run-linux
+    ls -ltr
+    ls -ltr ./kpt
+    pwd
 
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
