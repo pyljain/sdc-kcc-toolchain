@@ -6,7 +6,7 @@ steps:
 - id: 'Create new branch'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
-  args: ['branch', 'recommendations-$BUILD_ID']
+  args: ['checkout', '-b', 'recommendations-$BUILD_ID']
 - id: 'Get the number of setters'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
@@ -26,6 +26,10 @@ steps:
   name: 'gcr.io/kpt-dev/kpt'
   args: ['-c', 'kpt fn run ./manifests/ --fn-path ./kpt']
   entrypoint: '/bin/sh'
+- id: 'Create new branch'
+  # This step fetches the policies from the repository
+  name: 'gcr.io/cloud-builders/git'
+  args: ['commit', '-am', 'Added recommendations']
 - id: 'Push branch to remote'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
