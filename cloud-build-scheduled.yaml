@@ -30,6 +30,11 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
+- id: 'Show remote'
+  # This step fetches the policies from the repository
+  name: 'gcr.io/cloud-builders/git'
+  args: ['remote', 'show', 'origin']
+
 - id: 'Create new branch'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
