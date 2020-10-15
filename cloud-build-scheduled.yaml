@@ -1,8 +1,29 @@
 steps:
+- id: 'Get git credentials'
+  name: 'gcr.io/cloud-builders/git'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    echo $_GITHUB_KEY > /root/.ssh/id_github
+    chmod 600 /root/.ssh/id_github
+    cat <<EOF >/root/.ssh/config
+    Hostname github.com
+    IdentityFile /root/.ssh/id_github
+    EOF
+    ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
 - id: 'Clone repo'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
   args: ['clone', 'git@github.com:pyljain/sdc-kcc-toolchain.git']
+  volumes:
+  - name: 'ssh'
+    path: /root/.ssh
+
 - id: 'Create new branch'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
@@ -38,23 +59,6 @@ steps:
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
   args: ['commit', '-am', 'Added recommendations']
-
-- id: 'Get credentials for push'
-  name: 'gcr.io/cloud-builders/git'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    echo $_GITHUB_KEY > /root/.ssh/id_github
-    chmod 600 /root/.ssh/id_github
-    cat <<EOF >/root/.ssh/config
-    Hostname github.com
-    IdentityFile /root/.ssh/id_github
-    EOF
-    ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
-  volumes:
-  - name: 'ssh'
-    path: /root/.ssh
 
 - id: 'Push branch to remote'
   # This step fetches the policies from the repository
