@@ -1,10 +1,19 @@
 steps:
-- name: gcr.io/cloud-builders/gcloud
+- id: 'Get GitHub secret'
+  name: gcr.io/cloud-builders/gcloud
   entrypoint: 'bash'
   args: [ '-c', 'gcloud secrets versions access latest --secret=github-private-key > /root/.ssh/id_github' ]
   volumes:
   - name: 'ssh'
     path: /root/.ssh
+
+- id: 'Get Recommender SA secret'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=recommender-sa > /root/sa/recommender.json' ]
+  volumes:
+  - name: 'sa'
+    path: /root/sa
 
 - id: 'Get git credentials'
   name: 'gcr.io/cloud-builders/git'
@@ -69,10 +78,19 @@ steps:
     ls -ltr ./kpt
     pwd
 
+# - id: 'Run recommender function'
+#   name: 'gcr.io/kpt-dev/kpt:latest'
+#   args: ['fn', 'run', './manifests/', '--enable-exec', '--exec-path', './kpt/activeassist_run-linux', '--dry-run']
+  # entrypoint: '/bin/sh'
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
-  args: ['fn', 'run', './manifests/', '--enable-exec', '--exec-path', './kpt/activeassist_run-linux', '--dry-run']
-  # entrypoint: '/bin/sh'
+  args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount=type=bind,src=/root/sa/recommender.json,dst=/home/node/.gcloud/credentials.json']
+  env:
+  - 'GOOGLE_APPLICATION_CREDENTIALS=/home/node/.gcloud/credentials.json'
+  volumes:
+  - name: 'sa'
+    path: /root/sa
+
 - id: 'Configure git email for commit'
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
