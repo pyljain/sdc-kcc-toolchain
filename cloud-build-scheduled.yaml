@@ -92,7 +92,7 @@ steps:
 
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
-  args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount', 'type=bind,src=/root/sa,dst=/home/node/.gcloud']
+  args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount', 'type=bind,src=/root/sa,dst=/home/node']
   env:
   - 'GOOGLE_APPLICATION_CREDENTIALS=/home/node/.gcloud/recommender.json'
   volumes:
