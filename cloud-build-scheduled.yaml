@@ -93,7 +93,7 @@ steps:
 #     path: /root/sa
 
 - id: 'Run recommender function'
-  name: 'gcr.io/kpt-dev/kpt:latest'
+  name: 'payaljain/kpt-node:1'
   args: ['-c', 'kpt fn source ./manifests | node ./kpt/dist/activeassist_run.js | kpt fn sink ./manifests']
   entrypoint: '/bin/sh'
 
