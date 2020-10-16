@@ -12,12 +12,14 @@ openAPI:
           name: projectid
           value: sandbox-jainpayal
           required: true
+          isSet: true
     io.k8s.cli.setters.namespace:
       x-k8s-cli:
         setter:
           name: namespace
           value: activeassist
           required: true
+          isSet: true
     io.k8s.cli.setters.gcloud.core.project:
       x-k8s-cli:
         setter:
