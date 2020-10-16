@@ -7,13 +7,13 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
-- id: 'Get Recommender SA secret'
-  name: gcr.io/cloud-builders/gcloud
-  entrypoint: 'bash'
-  args: [ '-c', 'gcloud secrets versions access latest --secret=recommender-sa > /root/sa/recommender.json' ]
-  volumes:
-  - name: 'sa'
-    path: /root/sa
+# - id: 'Get Recommender SA secret'
+#   name: gcr.io/cloud-builders/gcloud
+#   entrypoint: 'bash'
+#   args: [ '-c', 'gcloud secrets versions access latest --secret=recommender-sa > /root/sa/recommender.json' ]
+#   volumes:
+#   - name: 'sa'
+#     path: /root/sa
 
 - id: 'Get git credentials'
   name: 'gcr.io/cloud-builders/git'
