@@ -94,7 +94,7 @@ steps:
 
 - id: 'Run recommender function'
   name: 'payaljain/kpt-node:1'
-  args: ['-c', 'cd kpt && npm install && kpt fn source ../manifests | node ./kpt/dist/activeassist_run.js | kpt fn sink ../manifests']
+  args: ['-c', 'cd kpt && npm install && kpt fn source ../manifests | node ./dist/activeassist_run.js | kpt fn sink ../manifests']
   entrypoint: '/bin/sh'
 
 - id: 'Configure git email for commit'
