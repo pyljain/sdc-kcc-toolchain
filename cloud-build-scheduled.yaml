@@ -85,7 +85,7 @@ steps:
 
 - id: 'Find original hydrated manifests'
   name: 'payaljain/kpt-node:1'
-  args: ['-c', 'mkdir original && mkdir recommendations && kpt fn source ./manifests | kpt fn sink ./original']
+  args: ['-c', 'mkdir original && mkdir recommendations && kpt fn source ./manifests | node ./dist/noop_run.js | kpt fn sink ./original']
   entrypoint: '/bin/sh'
 
 - id: 'Run recommender function'
