@@ -84,11 +84,11 @@ steps:
   # entrypoint: '/bin/sh'
 - id: 'Run recommender function'
   name: 'gcr.io/kpt-dev/kpt:latest'
-  args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount=type=bind,src=/root/sa/recommender.json,dst=/home/node/.gcloud/credentials.json']
+  args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount=type=bind,src=/root/sa,dst=/home/node/.gcloud']
   env:
-  - 'GOOGLE_APPLICATION_CREDENTIALS=/home/node/.gcloud/credentials.json'
+  - 'GOOGLE_APPLICATION_CREDENTIALS=/home/node/.gcloud/recommender.json'
   volumes:
-  - name: 'sa'
+  - name: sa
     path: /root/sa
 
 - id: 'Configure git email for commit'
