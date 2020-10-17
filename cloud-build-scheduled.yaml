@@ -74,12 +74,12 @@ steps:
 
 - id: 'Find Diff'
   name: 'payaljain/kpt-node:1'
-  args: ['-c', 'diff -Naur ./original ./recommendations > diff.txt || true']
+  args: ["-c", "echo '```' > diff.txt && diff -Naur ./original ./recommendations >> diff.txt || true && echo '```' > diff.txt"]
   entrypoint: '/bin/sh'
 
 - id: 'Create Github Issue'
   name: 'payaljain/kpt-node:1'
-  args: ['-c', 'GITHUB_TOKEN="$(cat /root/token/github)" gh issue create --title "Recommendations from Active Assist" --body "```$(cat diff.txt)```"']
+  args: ['-c', 'GITHUB_TOKEN="$(cat /root/token/github)" gh issue create --title "Recommendations from Active Assist" --body "$(cat diff.txt)"']
   entrypoint: '/bin/sh'
   volumes:
   - name: 'token'
