@@ -100,7 +100,8 @@ steps:
 
 - id: 'Create Github Issue'
   name: 'payaljain/kpt-node:1'
-  args: ['gh', 'issue', 'create', '--title', 'Recommendations from Active Assist', '--body', 'check']
+  args: ['-c', 'gh issue create --title "Recommendations from Active Assist" --body < $(cat diff.txt)']
+  entrypoint: '/bin/sh'
 
 # - id: 'Configure git email for commit'
 #   # This step fetches the policies from the repository
