@@ -74,7 +74,7 @@ steps:
 
 - id: 'Find Diff'
   name: 'payaljain/kpt-node:1'
-  args: ["-c", "echo '```' > diff.txt && diff -Naur ./original ./recommendations >> diff.txt || true && echo '```' > diff.txt"]
+  args: ["-c", "echo '```' > diff.txt && diff -Naur ./original ./recommendations >> diff.txt || true && echo '```' >> diff.txt"]
   entrypoint: '/bin/sh'
 
 - id: 'Create Github Issue'
