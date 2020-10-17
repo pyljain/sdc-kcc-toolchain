@@ -7,13 +7,13 @@ steps:
   - name: 'ssh'
     path: /root/.ssh
 
-# - id: 'Get Recommender SA secret'
-#   name: gcr.io/cloud-builders/gcloud
-#   entrypoint: 'bash'
-#   args: [ '-c', 'gcloud secrets versions access latest --secret=recommender-sa > /root/sa/recommender.json' ]
-#   volumes:
-#   - name: 'sa'
-#     path: /root/sa
+- id: 'Get GitHub token'
+  name: gcr.io/cloud-builders/gcloud
+  entrypoint: 'bash'
+  args: [ '-c', 'gcloud secrets versions access latest --secret=github-token > /root/token/github' ]
+  volumes:
+  - name: 'token'
+    path: /root/token
 
 - id: 'Get git credentials'
   name: 'gcr.io/cloud-builders/git'
@@ -44,44 +44,23 @@ steps:
   name: 'gcr.io/cloud-builders/git'
   args: ['remote', 'set-url', 'origin', 'git@github.com:pyljain/sdc-kcc-toolchain.git']
 
-# - id: 'Create new branch'
-#   # This step fetches the policies from the repository
-#   name: 'gcr.io/cloud-builders/git'
-#   args: ['checkout', '-b', 'recommendations-$BUILD_ID']
-
 - id: 'Get the number of setters'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg list-setters manifests/']
+
 - id: 'Set namespace in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg set manifests/ namespace ${_NAMESPACE_NAME} -R']
+
 - id: 'Set projectId in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
   args: ['-c', 'kpt cfg set manifests/ projectid sandbox-jainpayal -R']
-# - id: 'Run recommender function'
-#   name: 'gcr.io/kpt-dev/kpt:latest'
-#   args: ['-c', 'kpt fn run ./manifests/ --fn-path ./kpt --dry-run']
-#   entrypoint: '/bin/sh'
-
-# - id: 'Run recommender function'
-#   name: 'gcr.io/kpt-dev/kpt:latest'
-#   args: ['fn', 'run', './manifests/', '--enable-exec', '--exec-path', './kpt/activeassist_run-linux', '--dry-run']
-  # entrypoint: '/bin/sh'
-
-# - id: 'Run recommender function'
-#   name: 'gcr.io/kpt-dev/kpt:latest'
-#   args: ['fn', 'run', './manifests/', '--network', '--image=payaljain/activeassist:dev', '--mount', 'type=bind,src=/root/sa,dst=/home/node']
-#   env:
-#   - 'GOOGLE_APPLICATION_CREDENTIALS=/home/node/.gcloud/recommender.json'
-#   volumes:
-#   - name: sa
-#     path: /root/sa
 
 - id: 'Find original hydrated manifests'
   name: 'payaljain/kpt-node:1'
@@ -100,36 +79,8 @@ steps:
 
 - id: 'Create Github Issue'
   name: 'payaljain/kpt-node:1'
-  args: ['-c', 'gh issue create --title "Recommendations from Active Assist" --body < $(cat diff.txt)']
+  args: ['-c', 'GITHUB_TOKEN="$(cat /root/token/github)" gh issue create --title "Recommendations from Active Assist" --body "$(cat diff.txt)"']
   entrypoint: '/bin/sh'
-
-# - id: 'Configure git email for commit'
-#   # This step fetches the policies from the repository
-#   name: 'gcr.io/cloud-builders/git'
-#   args: ['config', '--global', 'user.email', 'recommender@gmail.com']
-# - id: 'Configure git name for commit'
-#   # This step fetches the policies from the repository
-#   name: 'gcr.io/cloud-builders/git'
-#   args: ['config', '--global', 'user.name', 'Active Assist']
-# - id: 'Commit changes to branch'
-#   # This step fetches the policies from the repository
-#   name: 'gcr.io/cloud-builders/git'
-#   args: ['commit', '-am', 'Added recommendations']
-
-# - id: 'Push branch to remote'
-#   # This step fetches the policies from the repository
-#   name: 'gcr.io/cloud-builders/git'
-#   args: ['push', 'origin', 'recommendations-$BUILD_ID']
-#   volumes:
-#   - name: 'ssh'
-#     path: /root/.ssh
-# - id: 'Validate against policies'
-  # This step validates resources against recommendations - do the docker way
-  # name: 'gcr.io/kpt-dev/kpt'
-  # args: ['-c', 'kpt fn run ../manifests/ --enable-exec --exec-path ./activeassist_run-macos']
-# - id: "Run functions"
-#   name: 'gcr.io/kpt-dev/kpt:latest'
-#   args:
-#     - fn
-#     - run
-    # - exmaple-package
+  volumes:
+  - name: 'token'
+    path: /root/token
