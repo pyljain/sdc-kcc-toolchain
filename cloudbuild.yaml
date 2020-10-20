@@ -3,33 +3,19 @@ steps:
   # This step fetches the policies from the repository
   name: 'gcr.io/cloud-builders/git'
   args: ['clone', 'https://github.com/pyljain/sdc-kcc-toolchain.git']
-- id: 'Download repo'
-  # This step fetches the policies from the repository
-  name: 'gcr.io/kpt-dev/kpt:latest'
-  entrypoint: '/bin/sh'
-  args: ['-c', 'kpt pkg get https://github.com/pyljain/sdc-kcc-toolchain.git@main sample']
-- id: 'Get the number of setters'
-  # This step fetches the policies from the repository
-  name: 'gcr.io/kpt-dev/kpt:latest'
-  entrypoint: '/bin/sh'
-  args: ['-c', 'kpt cfg list-setters sample/']
 - id: 'Set namespace in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
-  args: ['-c', 'kpt cfg set sample/ namespace ${ -} -R']
+  args: ['-c', 'kpt cfg set manifests/ namespace ${_NAMESPACE_NAME} -R']
 - id: 'Set projectId in manifests'
   # This step fetches the policies from the repository
   name: 'gcr.io/kpt-dev/kpt:latest'
   entrypoint: '/bin/sh'
-  args: ['-c', 'kpt cfg set sample/ projectid sandbox-jainpayal -R']
-# - id: 'Run recommender function'
-#   name: 'gcr.io/kpt-dev/kpt:latest'
-#   entrypoint: '/bin/sh'
-#   args: ['-c', 'kpt fn run sample/manifests/ --fn-path sample/kpt/']
+  args: ['-c', 'kpt cfg set manifests/ projectid sandbox-jainpayal -R']
 - id: 'Apply the package'
   name: 'gcr.io/cloud-builders/kubectl'
-  args: ['apply', '-f', 'sample/manifests/']
+  args: ['apply', '-f', 'manifests/']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=activeassist-kcc'
